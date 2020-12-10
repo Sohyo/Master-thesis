@@ -1,0 +1,96 @@
+\documentclass[12pt]{report}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage[style=apa]{biblatex}
+%\usepackage{cite}
+\addbibresource{references.bib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\usepackage[ruled]{algorithm2e}
+
+\newcommand{\blankpage}{
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+    \newpage
+}
+\usepackage{makecell}
+
+\title{Master thesis title}
+\author{Sohyung Kim}
+\date{\today}
+
+\usepackage[intoc, english]{nomencl}
+\makenomenclature
+
+\begin{document}
+
+% Title page
+\input{titlepage}
+\blankpage
+
+% Nomenclature 
+% \nomenclature{$\theta$}{Master policy}
+% \nomenclature{$\phi$}{Sub policy}
+% \nomenclature{$I_{\phi}$}{Number of sub-policy updates in each cycle}
+% \nomenclature{$I_{\theta}$}{Number of master policy updates in each cycle}
+% \nomenclature{$P_T$}{All the different tasks that are available in the environment}
+% \nomenclature{$\rho$}{Success threshold}
+% \nomenclature{$N$}{Number of timesteps worth of experience}
+% \nomenclature{$C$}{Number of training cycles/episodes}
+% \nomenclature{$R$}{Remind frequency}
+\nomenclature{AI}{Artificial Intelligence}
+\nomenclature{ML}{Machine Learning}
+
+% Chapters
+\pagenumbering{roman}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}%
+\input{chapters/abstract}
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}%
+\input{chapters/acknowledgements}
+
+
+\printnomenclature
+
+\tableofcontents
+
+\clearpage
+\pagenumbering{arabic}
+
+\chapter{Introduction}
+\input{chapters/introduction}
+\chapter{Theoretical Background} \label{chapter:theory}
+\input{chapters/theoretical_background}
+\chapter{Methodology} \label{chapter:methodology}
+\input{chapters/methodology}
+\chapter{Experiments} \label{chapter:experiments}
+\input{chapters/experiments}
+\chapter{Results} \label{chapter:results}
+\input{chapters/results}
+\chapter{Discussion} \label{chapter:discussion}
+\input{chapters/discussion}
+
+% Bibliography
+\printbibliography
+
+% Appendixes
+\appendix
+\input{chapters/appendix}
+
+\end{document}

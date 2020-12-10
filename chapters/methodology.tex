@@ -1,0 +1,51 @@
+\section{Data}\label{section:datasets}
+
+% Before selecting the out-domain dataset, we try to replicate the experiment of Fairseq WMT19 News translation task in German $\rightarrow$ English language direction. We evaluate the models on four domains including in-domain. 
+\begin{table}[h] 
+\centering
+\begin{tabular}{cccc}
+\hline
+        & Documents  & Sentences & Tokens \\ \hline
+EMEA    & 1939    &1108716    & \\ 
+JRC    & 12035    & 2561711   & \\ 
+GNOME    & 2280    &    & \\ \hline
+\end{tabular}
+\caption{Short description of datasets}
+\label{Tab:Dataset}
+\end{table}
+We evaluate our experiments on German → English translation task , where the parallel corpora is publicly available from different domains: EMEA, GNOME and JRC-Aquis(JRC). These parallel corpora are from the OPUS project\parencite[]{tiedemann2012parallel}. EMEA(European Medicines Agency documents) is consisted of PDF documents from the European Medicines Agency. JRC-Acquis is a collection of legislative text of the European Union and currently comprises selected texts written between the 1950s and now.
+
+
+\subsection{Data Preprocessing}
+
+\subsubsection{Parallel Corpora Filters}
+
+There are several common defects from the parallel corpora that can affect the quality of NMT models. Therefore, we filter out parallel corpora. We used the standalone XML format parallel corpora from OPUS.  
+
+1. Extract the pure sentenced from standalone XML format target and source files. In order to extract it with the correct/ right alignments, we use OPUS tool which can help to extract the well aligned sentences from both languages files.
+
+2. Remove duplicated sentences - which caused too high BLEU score. \\
+3. clean up the short sentences :Also, too short sentences or empty sentence were cleaned out.($<$ 8 words). \\
+4. alignment issues: some sentences in parallel corpus are missing. Thus they were removed.( which will causes problems with applying fast alignment) \\
+
+6. Keep the information of documents of sentences. For example, we knows which documents were used for making for each datsets(train/valid/test). This is because it might be used for later to check up the confidentiality(need to think more about this..)
+
+%The format of raw data is normally XML(Extensible Markup Language) 
+%xml parser : The xml.etree.ElementTree module implements a simple and efficient API for parsing and creating XML data.
+%The XML tree structure makes navigation, modification, and removal relatively simple programmatically. Python has a built in library, ElementTree, that has functions to read and manipulate XMLs (and other similarly structured files).
+should mention about \cite{aulamo-etal-2020-opustools}
+
+
+\subsection{Byte Pair Encodings}
+Before training or finetuning NMT, creating sub-word vocabulary is important. This is because of the sub-word vocabulary can affect significantly to the performance of the NMT models. In this project, fastBPE is used.%need more explanation :D
+Fairseq team used joint byte pair encodings (BPE) with 32K split operations for subword segmentation. 
+Furthermore, for the WMT19 model, Fairseq team used their own \textit{fastBPE} to apply BPE on the datasets. 
+
+\section{Phrase based Machine Translation}
+\subsection{Fast Alignment}
+\subsection{Moses Phrase Extraction}
+\section{Evaluation Metrics}\label{section:evaluation_metrics
+}
+BLEU score / SacreBLEU 
+
+\section{Fairseq WMT19 Neural Machine Translation model}

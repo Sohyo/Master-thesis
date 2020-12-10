@@ -1,0 +1,32 @@
+\section{Baseline}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cc}
+\Xhline{3\arrayrulewidth}
+        &  BLEU  \\\hline
+EMEA  &  35.52     \\ 
+GNOME  & 27.29       \\
+JRC  &   29.03        \\\Xhline{3\arrayrulewidth}
+
+\end{tabular}
+\caption{SacreBLEU score for pre-trained German $\rightarrow$ English models}
+\label{Tab:NMTresults}
+\end{table}
+
+\subsection{Finetuning with original dataset}
+
+\begin{table}[h] 
+\centering
+\begin{tabular}{ccccccc}
+\Xhline{3\arrayrulewidth}
+Dataset & Learning rate & Batch size & weight decay  & dropout & Epoch  & BLEU \\\hline
+EMEA & 5.0E-04 & 4096 & 0.0001 & 0.2 & &       42.44\\ 
+GNOME & 1.00E-03 & 4096 & 0 & 0.2 & &    34.12               \\ 
+JRC &5.0E-04 & 4096 & 0.0001 &0  & &. 54.38       \\ \Xhline{3\arrayrulewidth}
+
+
+\end{tabular}
+\caption{SacreBLEU for finetuning models with original datasets}
+\label{Tab:BLEU}
+\end{table}

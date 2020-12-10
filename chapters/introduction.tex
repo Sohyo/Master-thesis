@@ -1,0 +1,52 @@
+%TODO : maybe also think about low re-source wise as well. Since the fragmented data will be anyways considerably small than normal original dataset. 
+
+
+Deep learning has achieved astonishing advances in natural language processing (NLP) but due to the nature of deep learning models, abundant data is required for good performance. For instance, neural machine translation (NMT) in the case of poor resource, is either worse than or comparable to the statistical model \parencite{zoph2016transfer}. However, not all documents are shareable for deep learning NLP models. When the content of the data is highly confidential, generally the owner of the data denies providing it. Losing the opportunity to use the data can result in less accurate performance of NLP solutions. In this project, we will explore the possibility of using otherwise unavailable confidential documents to improve deep neural NLP models.
+
+When the complete data cannot be shared in its original form, as a compromise, releasing some statistics or fragmented data can be considered. The most well-known example of releasing fragmented data is Google N-gram \parencite{michel2011quantitative}. N-grams consist of sequences of \textit{n} words and counts in the given corpus and the idea behind it is how many words should be considered to predict the next word. 
+
+However, N-grams are not optimal for training deep learning models. Currently, deep neural networks, based on LSTM \parencite{bahdanau2014neural} or transformer \parencite{vaswani2017attention} architectures, have been used for solving various NLP tasks. In order to train these deep models, whole sentences are required such that the models can learn to utilize context. However, N-grams break down the sentences and while doing so it loses some of the contextual information. Therefore, N-grams are not the ideal way to share textual data nowadays. Here, the question can arise : If the data owner can release only N-grams because of confidentiality issues, is there any way to use this to improve the deep learning NLP model?
+
+To specify the scenario for our study, we consider a case where a company provides an NLP service based on deep learning methods. This company may want to improve their models' performance by training or adapting to the clients' data. Due to confidentiality concerns, the clients only provide N-grams and counts of the original data as a compromise. In this case, if the N-gram can be used to improve the NLP model, both the clients and the company will benefit. Since the company can use this fragmented data to improve their solutions, the clients will receive better service. In this point of view, we want to study the possibility of sharing N-grams for improving utility while preserving privacy of data.
+
+%Some studies have already discussed about it in the past for statistical models\cite{cancedda2012private}. However, we need a different approach in the context of deep learning based on NLP technologies. Currently, deep neural network, such as LSTM or transformer, has been used for solving the NLP tasks. In order to train these deep learning models, these models need the whole sentences and learn the context from them. However, N-grams break down the sentences and while doing it it can lose some of the contextual information. Therefore, N-gram is not useful way to share the textual data in these days. Here, the question can arise : If the data owner can release only N-grams because of confidentiality, is there any way to use this to improve the deep learning NLP model? 
+
+In our experiments we will be focusing on domain adaptation, therefore we consider ways to improve pre-trained neural models with N-grams. Since we have to keep the confidentiality of dataset in mind, the N-gram might still not be safe enough. \parencite{galle2015reconstructing} already established the possibility of reconstructing the original data from the given N-grams. They also suggested a noising technique to prevent the recovery of the original text for the given N-grams. We will apply this technique on our N-grams and see how this influences the usefulness of NLP models adaption.
+
+%to reconstruct the original textual data from the given n-grams and also to use noising technique in order to to prevent recovery of the original data. 
+%However, for the optimal analysis for NLP, there is still a limitation to using this fragmented data. The question can arise in this point: \textit{When N-grams are the only available data, is there still space to improve the deep learning NLP model?} 
+%From this point of view, we will study the possibility to use this fragmented confidential data to improve the NLP model.
+
+%However, the limited access to original data can restrict the data's use and this cause difficulties for improving the NLP models. The question can arise in this point: \textit{how much of the original data should be released to provide useful information while preventing reconstruction of the original documents?} 
+%This limited access to the original data may cause difficulties in applying state-of-art domain adaptation methods and consequently less accurate NLP soluations. 
+%In this case, we want to study how we can maximise the usefulness of fragmented data and at the same time protect the confidentiality. 
+%Note that for our study we only consider the case where N-gram of the original documents are only available.
+
+\section{Research Questions}\label{section:research_questions}
+
+% In this study, there are several possible research questions. Firstly, we want to see how much can we reconstruct the original data or extract the important textual features from n-gram. The purpose of this is we do not know yet how informative the N-gram is to train neural language models. We will try to recover the original dataset from the given n-grams and test this dataset to get reasonable results compare with the original dataset. Furthermore, we want to know how we can use noise technique on N-gram to in order to avoid reconstruction of the whole original dataset. Then, we will see this noised N-gram still can give enough information for DL models. Fianlly, we want to find out how much we can improve neural language model with this noised N-gram. 
+% \begin{enumerate}
+%     \item N-gram itself is informative enough to train deep learning models based on NLP techniques?
+%     : N-gram is basically a sequence of n words and it has less information compared with the whole original sentences. We do not know yet how informative the N-gram is and the information from N-gram is enough to train neural language models. Thus, we want to see how much we can reconstruct the original data or extract the important textual features from N-gram, and test this reconstructed textual data to get reasonable results compare with the original dataset.
+%     \item Can using the noise technique on N-gram actually avoid reconstruction of the whole original dataset? 
+%     : In order to do this, we will follow \cite{galle2015reconstructing} methods to build noise technique. We want to see how this noise technique distract to recover whole data and how much different between the text from N-gram and noised N-gram.
+%     \item Noised N-gram is still informative enough to improve neural language models?
+%     This might be the actual research question. If the noise N-gram is successful to preserve confidentiality, then we need to think it is still useful to train the neural models. Then we can consider the optimal way to keep the privacy of original data and use the fragmented data in order to improve the models. 
+% \end{enumerate}
+This project aims to answer the following research question:\\
+
+\textit{In the scenario where the data is highly confidential, only N-grams of the original documents are available, how can we use N-grams to improve pre-trained deep learning NLP models while preserving the confidentiality of data?}\\ 
+
+%The topic is training neural language models and/or NMT models on fragmented data (e.g. n-grams) in the scenario where the original data cannot be released in its original form for copyright or confidentiality reasons.
+
+\noindent This main research question will be addressed by answering sub-questions:
+% The main research question can be divided into sub-questions:
+\begin{enumerate}
+    \item What is the most optimal way to present N-grams to apply domain adaptation for pre-trained neural NLP models? 
+    %\item N-gram is informative enough to apply domain adaptation for deep learning models?
+    %\item When apply domain adaptation for LM and NMT models, how do N-grams perform worse than the original documents? 
+    % \item Is noised N-gram informative enough to improve neural NLP models?
+    \item How much noise should be added to N-gram to improve neural NLP models while protecting the original data from reconstruction?
+    %This might be the actual research question. If the noise N-gram is successful to preserve confidentiality, then we need to think it is still useful to train the neural models. Then we can consider the optimal way to keep the privacy of original data and use the fragmented data in order to improve the models. 
+\end{enumerate}
+\section{Thesis Outline}\label{section:thesis_outline}
