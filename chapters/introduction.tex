@@ -1,52 +1,92 @@
-%TODO : maybe also think about low re-source wise as well. Since the fragmented data will be anyways considerably small than normal original dataset. 
+\newcommand{\SH}[1]{{\small\textcolor{blue}{[ #1]}}}
 
 
-Deep learning has achieved astonishing advances in natural language processing (NLP) but due to the nature of deep learning models, abundant data is required for good performance. For instance, neural machine translation (NMT) in the case of poor resource, is either worse than or comparable to the statistical model \parencite{zoph2016transfer}. However, not all documents are shareable for deep learning NLP models. When the content of the data is highly confidential, generally the owner of the data denies providing it. Losing the opportunity to use the data can result in less accurate performance of NLP solutions. In this project, we will explore the possibility of using otherwise unavailable confidential documents to improve deep neural NLP models.
+%The emergence of substantial amounts of digitized text gives rise to train machine learning models for various downstream applications.
+% With the rapid growth of international markets, the need for translation has also been increasing.
+%Furthermore, since the quality of MT has been improving as a 'good enough' translation that can replace human translator for regular and no need precise translation task, many companies also provide MT services. 
+%and in order to have better communication, accurate translation is important??.. Therefore machine translation (MT) is an important research area, as a result. \\ typically modeling entire sentences in a single integrated model.
+%%%% Introduce MT and NMT
+With the growth of the international market and the freedom to share information through the Internet, the need for translation is increasing exponentially. It is getting difficult to meet this explosive demand for translation by only human translators due to cost and time constraints. Accordingly, an approach to Machine translation (MT), automatically translating one language into another language,
+has continuously received significant attention in Artificial Intelligence (AI). 
+%with or without human assistance, 
 
-When the complete data cannot be shared in its original form, as a compromise, releasing some statistics or fragmented data can be considered. The most well-known example of releasing fragmented data is Google N-gram \parencite{michel2011quantitative}. N-grams consist of sequences of \textit{n} words and counts in the given corpus and the idea behind it is how many words should be considered to predict the next word. 
+Hence many generations of MT models have evolved since the early 1950s, when the first practical MT models were suggested~\parencite{hutchins2007machine}.
+%a relatively long period of time. 
+%One of the dominant frameworks of the previous generation for MT research was Statistic Machine Translation (SMT).
+For a while, Statistic Machine Translation (SMT) was the dominant framework for MT research and industry. However, more recently, Neural Machine Translation (NMT)~\parencite{kalchbrenner-blunsom-2013-recurrent, bahdanau2014neural}, which uses neural network models to solve MT task, has replaced SMT with significant progress.
+One of the main reasons NMT outperforms other traditional MT models is that it is trained in end-to-end fashion. While SMT consists of subsequent components that are trained separately, NMT instead combines all of the components into one big trainable encoder-decoder structured model. This allows NMT to be able to have better exploitation of context than SMT.
 
-However, N-grams are not optimal for training deep learning models. Currently, deep neural networks, based on LSTM \parencite{bahdanau2014neural} or transformer \parencite{vaswani2017attention} architectures, have been used for solving various NLP tasks. In order to train these deep models, whole sentences are required such that the models can learn to utilize context. However, N-grams break down the sentences and while doing so it loses some of the contextual information. Therefore, N-grams are not the ideal way to share textual data nowadays. Here, the question can arise : If the data owner can release only N-grams because of confidentiality issues, is there any way to use this to improve the deep learning NLP model?
+%%%%% Limitation of availability of in-domain data the adequate supply of training data
+%when have large volumes of language data. What still appears to be the main bottleneck is the lack of data in a particular target language or domain.
+Although NMT yields state-of-art performance, it still shows several weaknesses. The most common problem is that NMT relies heavily on training data like other deep learning models because it has an architecture based on deep neural networks. This means that it is not only data-hungry but also very sensitive to the domain difference between training and test data. Many researches reported that NMT performs poorly for domain specific translation in the low resource scenarios~\parencite{zoph2016transfer, koehn-knowles-2017-six, ostling2017neural, sato-etal-2020-vocabulary}. However, in practice, extensive scale parallel data (several million sentences) is available only in limited language pairs and domains. To cope with this data scarcity, domain adaptation --- using knowledge of the source domain to improve the performance of the target domain --- is frequently used.
+In particular, as a conventional domain adaptation technique for NMT, fine-tuning~\parencite{freitag2016fast, chu-etal-2017-empirical} is employed in the case where the large out-domain and relatively small in-domain parallel datasets are feasible.
 
-To specify the scenario for our study, we consider a case where a company provides an NLP service based on deep learning methods. This company may want to improve their models' performance by training or adapting to the clients' data. Due to confidentiality concerns, the clients only provide N-grams and counts of the original data as a compromise. In this case, if the N-gram can be used to improve the NLP model, both the clients and the company will benefit. Since the company can use this fragmented data to improve their solutions, the clients will receive better service. In this point of view, we want to study the possibility of sharing N-grams for improving utility while preserving privacy of data.
+%raise the issue - confidential data cannot be used for NMT improvement 
+The availability of high quality in-domain data, therefore, remains essential to ensure the quality of NMT, especially in technical domains~\parencite{koehn-knowles-2017-six}. However, obtaining such data is still challenging. In many real-world scenarios, this is further aggravated by data confidentiality or copyright concerns. For example, in a scenario where a translation company based on a pipeline of NMT and human post-editing, the company wants to use its clients' data and translation for improving the NMT quality. In fact, when data content is highly sensitive, the owner of the data (the clients of the translation company) may simply deny providing its data and translation to the translation company it is hiring \parencite{cancedda-2012-private}. Missing the opportunity to use such sensitive in-domain data can lead to considerably worse MT quality, higher post-editing efforts and subsequently higher translation costs for the data owners themselves. In this context, we begin to question the feasibility of exploiting the parallel datasets that cannot be used for reasons of confidentiality to improve NMT quality. If a NMT system can take advantage of any part of high-quality in-domain data, the data owner and the translation company could benefit together from reduced post-editing cost. 
+%We consider releasing such data in fragmented form as an alternate, to protect the confidentiality, even if it hurts the usefulness of the data.
 
+
+%%%%% Enter: NLP for Privacy Angle 
+Our main observation is that, in natural language processing (NLP), when the complete data cannot be shared in its original form, releasing \textit{fragmented} data can be considered as a compromise. The most well-known example of releasing fragmented data is \textit{Google N-gram} \parencite{michel2011quantitative}. N-gram tables consisting of sequences of \textit{n} words and their counts in a given corpus were routinely used to train count-based language models \parencite{kneser-ney, brants-etal-2007-large} before the advent of neural methods. However, fragmented data like N-grams is not optimal for training state-of-the-art NMT models that are based on deep neural networks
+%Even though the fragmented dataset can keep confidentiality, however, it will trade-off data usefulness for training NMT models.
+such as sequence-to-sequence LSTM \parencite{sutskever2014sequence} or Transformers \parencite{vaswani2017attention}. As mentioned above, one of the main strengths of these models is the ability of handling arbitrarily long contexts, which would be hindered by the use of fragmented data. 
+%In addition, since parallel data is requisite for training NMT, fragmented data for NMT have to remain the alignments. 
+In this thesis, we take a pragmatic approach and ask: If the data owner can \textit{only} release fragmented data due to confidentiality issues, can this still benefit downstream NMT quality in any way? As a solution, we propose \textit{phrase pairs} for a fragmented text format. Phrase pairs are one of the major components of phrase-based MT that keeps word alignments.
+
+Motivated by the brittleness of NMT in out-of-domain settings \parencite{koehn-knowles-2017-six} and the increasing availability of large pre-trained models \parencite{ng-etal-2019-facebook}, in this thesis, we focus on the task of adapting a strong-performing general-domain pre-trained NMT system to various technical domains. As a viable solution to exploit confidential data, we fine-tune phrase pairs of in-domain data as parallel sentences. Furthermore, to maximise the utility of phrase pairs for fine-tuning a NMT model while preserving the confidentiality of data, we devise various methods for presenting phrases to models.
+    
+%In order to train such deep learning models, these the training needs the whole sentences and learn the context from them. However, phrases break down the sentences and while doing it it can lose some of the contextual information. Therefore, fragmented data is not useful way to share the textual data in NMT models. Here, the question can arise : If the data owner can release only phrases because of confidentiality, is there any way to use this to improve the NMT model? In this project, we will explore the possibility of using otherwise unavailable confidential data to improve NMT models. In our experiments we will be focusing on domain adaptation, therefore we consider ways to improve pre-trained neural models with phrases. 
+%Rapid development of neural machine translation (NMT) has led to the improvement in MT. However, due to the nature of deep learning models, the quality and availability of abundant data is required for good performance. In the case of poor resource, NMT is either worse than or comparable to the statistical machine translation (SMT) models\parencite{zoph2016transfer}. In order for dealing with the data scarcity problem, many researches have been studied. Domain adaptation is an effective method and has fulfilled a key role in recent astonishing advances in Neural Machine Translation (NMT).
+%When the complete data cannot be shared in its original form, as a compromise, releasing some statistics or fragmented data can be considered. The most well-known example of releasing fragmented data is Google N-gram \parencite{michel2011quantitative}. N-grams consist of sequences of \textit{n} words and counts in the given corpus and the idea behind it is how many words should be considered to predict the next word. 
+%To specify the scenario for our study, we consider a case where a company provides an NLP service based on deep learning methods. This company may want to improve their models' performance by training or adapting to the clients' data. Due to confidentiality concerns, the clients only provide N-grams and counts of the original data as a compromise. In this case, if the N-gram can be used to improve the NLP model, both the clients and the company will benefit. Since the company can use this fragmented data to improve their solutions, the clients will receive better service. In this point of view, we want to study the possibility of sharing N-grams for improving utility while preserving privacy of data.
 %Some studies have already discussed about it in the past for statistical models\cite{cancedda2012private}. However, we need a different approach in the context of deep learning based on NLP technologies. Currently, deep neural network, such as LSTM or transformer, has been used for solving the NLP tasks. In order to train these deep learning models, these models need the whole sentences and learn the context from them. However, N-grams break down the sentences and while doing it it can lose some of the contextual information. Therefore, N-gram is not useful way to share the textual data in these days. Here, the question can arise : If the data owner can release only N-grams because of confidentiality, is there any way to use this to improve the deep learning NLP model? 
 
-In our experiments we will be focusing on domain adaptation, therefore we consider ways to improve pre-trained neural models with N-grams. Since we have to keep the confidentiality of dataset in mind, the N-gram might still not be safe enough. \parencite{galle2015reconstructing} already established the possibility of reconstructing the original data from the given N-grams. They also suggested a noising technique to prevent the recovery of the original text for the given N-grams. We will apply this technique on our N-grams and see how this influences the usefulness of NLP models adaption.
 
-%to reconstruct the original textual data from the given n-grams and also to use noising technique in order to to prevent recovery of the original data. 
-%However, for the optimal analysis for NLP, there is still a limitation to using this fragmented data. The question can arise in this point: \textit{When N-grams are the only available data, is there still space to improve the deep learning NLP model?} 
-%From this point of view, we will study the possibility to use this fragmented confidential data to improve the NLP model.
-
-%However, the limited access to original data can restrict the data's use and this cause difficulties for improving the NLP models. The question can arise in this point: \textit{how much of the original data should be released to provide useful information while preventing reconstruction of the original documents?} 
-%This limited access to the original data may cause difficulties in applying state-of-art domain adaptation methods and consequently less accurate NLP soluations. 
-%In this case, we want to study how we can maximise the usefulness of fragmented data and at the same time protect the confidentiality. 
-%Note that for our study we only consider the case where N-gram of the original documents are only available.
 
 \section{Research Questions}\label{section:research_questions}
 
-% In this study, there are several possible research questions. Firstly, we want to see how much can we reconstruct the original data or extract the important textual features from n-gram. The purpose of this is we do not know yet how informative the N-gram is to train neural language models. We will try to recover the original dataset from the given n-grams and test this dataset to get reasonable results compare with the original dataset. Furthermore, we want to know how we can use noise technique on N-gram to in order to avoid reconstruction of the whole original dataset. Then, we will see this noised N-gram still can give enough information for DL models. Fianlly, we want to find out how much we can improve neural language model with this noised N-gram. 
-% \begin{enumerate}
-%     \item N-gram itself is informative enough to train deep learning models based on NLP techniques?
-%     : N-gram is basically a sequence of n words and it has less information compared with the whole original sentences. We do not know yet how informative the N-gram is and the information from N-gram is enough to train neural language models. Thus, we want to see how much we can reconstruct the original data or extract the important textual features from N-gram, and test this reconstructed textual data to get reasonable results compare with the original dataset.
-%     \item Can using the noise technique on N-gram actually avoid reconstruction of the whole original dataset? 
-%     : In order to do this, we will follow \cite{galle2015reconstructing} methods to build noise technique. We want to see how this noise technique distract to recover whole data and how much different between the text from N-gram and noised N-gram.
-%     \item Noised N-gram is still informative enough to improve neural language models?
-%     This might be the actual research question. If the noise N-gram is successful to preserve confidentiality, then we need to think it is still useful to train the neural models. Then we can consider the optimal way to keep the privacy of original data and use the fragmented data in order to improve the models. 
-% \end{enumerate}
-This project aims to answer the following research question:\\
+This project aims to answer the following research question:
 
-\textit{In the scenario where the data is highly confidential, only N-grams of the original documents are available, how can we use N-grams to improve pre-trained deep learning NLP models while preserving the confidentiality of data?}\\ 
+\begin{quote}
 
+\textit{In the scenario where the original data is not shareable due to confidentiality issues and \textbf{only shuffled phrase pairs} can be released as a compromise, can this benefit downstream NMT quality in any way?}
+
+\end{quote}
 %The topic is training neural language models and/or NMT models on fragmented data (e.g. n-grams) in the scenario where the original data cannot be released in its original form for copyright or confidentiality reasons.
 
-\noindent This main research question will be addressed by answering sub-questions:
-% The main research question can be divided into sub-questions:
+\noindent We will address the main research question by answering the following sub-questions:
+
 \begin{enumerate}
-    \item What is the most optimal way to present N-grams to apply domain adaptation for pre-trained neural NLP models? 
-    %\item N-gram is informative enough to apply domain adaptation for deep learning models?
-    %\item When apply domain adaptation for LM and NMT models, how do N-grams perform worse than the original documents? 
-    % \item Is noised N-gram informative enough to improve neural NLP models?
-    \item How much noise should be added to N-gram to improve neural NLP models while protecting the original data from reconstruction?
-    %This might be the actual research question. If the noise N-gram is successful to preserve confidentiality, then we need to think it is still useful to train the neural models. Then we can consider the optimal way to keep the privacy of original data and use the fragmented data in order to improve the models. 
+    % Improvement ? 
+    \item How much does the translation quality of out-of-domain models improve over the baseline models when fine-tuning on in-domain phrase pairs?
+
+    % different maximum length - how different effect?
+    \item %We can intuitively expect shorter phrases to lose more contextual information. Based on this, can we see that if use a shorter maximum phrase length, the quality of the translation is lowered?
+    Does the use of shorter phrases (i.e. more fragmented data) lower translation quality?
+    
+    \item Can the phrase adapted NMT model's translation quality be improved by applying tagging techniques to present phrase pairs to the NMT model?
+    
+    % interesting differences between domains?
+    \item When fine-tuning the NMT model on phrase pairs, are there any significant differences between different test domains?
+    
+    % Which method works best among all the combinations of our methods? and how is different in domains?
+    %\item Can applying the tagging technique for presenting the phrases to NMT model improve the translation quality? 
+    
 \end{enumerate}
-\section{Thesis Outline}\label{section:thesis_outline}
+
+%\section{Contributions}
+% The main contributions of this paper are the following:
+
+% \begin{itemize}
+%     \item We propose a novel idea that using phrase pairs 
+% \end{itemize}
+
+% Some of the work presented in the course of this thesis
+
+\section{Thesis Outline} \label{section:thesis_outline}
+This thesis is organised as follows.
+%In this section, we briefly summarise the structure of the paper. 
+Chapter~\ref{chapter:MT} provides some background on NMT and domain adaptation. In Chapter~\ref{chapter:methodology}, we propose our approach for answering the research questions with a motivated scenario. Chapter~\ref{chapter:experimental_setup} provides all details of our experiments. We evaluate the results of all experiments and represent analysis of the results in chapter~\ref{chapter:results}.
+Finally, we answer the research questions and conclude our findings with possible future work in Chapter~\ref{chapter:conclusion}. 
+
+Part of this thesis has been published as a workshop paper~\parencite{kim-etal-2021-using}.

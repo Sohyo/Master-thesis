@@ -1,5 +1,15 @@
+Domain adaptation has led to remarkable achievements in Neural Machine Translation (NMT). Therefore, the availability of in-domain data remains essential to ensure the quality of NMT, especially in technical domains. However, obtaining such data is often challenging, and in many real-world scenarios this is further aggravated by data confidentiality or copyright concerns. 
 
+We study the problem of domain adaptation in NMT when domain-specific data cannot be shared due to confidentiality issues. We propose to fragment data into phrase pairs and use a shuffled and random sample to fine-tune a generic NMT model instead of using the full sentences. Despite the loss of long segments, we find that NMT quality can considerably benefit from this adaptation and that further gains can be obtained with a simple tagging technique.
 
+% %Domain adaptation has led to remarkable achievement in Machine Translation.
+% We study the problem of domain adaptation in Neural Machine Translation (NMT) when domain-specific data cannot be shared due to confidentiality or copyright issues.
+% %However, in order to expect good performance in such domain adaptation, the provision of sufficient in-domain data should be required. Due to confidentiality concerns, highly sensitive data is not always shareable, and the data lost the opportunity to be shared can result in poor MT quality. 
+% We propose to fragment data into phrase pairs and use a random sample to fine-tune a generic NMT model instead of the full sentences. 
+% %We study whether this fragmented data could be used for domain adaptation of NMT. We propose phrases as a fragmented parallel corpus for domain adaptation. 
+% Despite the loss of long segments, %because of phrase extraction, 
+% we find that NMT quality can considerably benefit from this adaptation, and that further gains can be obtained with a simple tagging technique. 
 \medskip
 
-\textbf{\emph{Keywords}} --- Confidential Data/ Reconstructing Documents/ Domain Adaptation/ Natural Language Processing  / N-gram; Deep Learning
+
+\textbf{\emph{Keywords}} --- Confidential Data/ Domain Adaptation/ Neural Machine Translation / Phrase Pairs / Fine-tuning/ Transformer

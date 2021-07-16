@@ -1,9 +1,115 @@
+In this chapter, we review and summarise our findings. First, we discuss the experimental results by answering research questions in Section~\ref{section:answer_question}. Afterwards, Section~\ref{section:future_work} suggests possible directions for future work regarding our approach and limitation of this thesis work. Finally, we conclude our work in Section~\ref{chapter:results}. 
 
-\section{Answer to Research Questions}
+%In this chapter we start by making a summary of the contributions of this dissertation. Afterwards, we suggest some of the possible directions for future work regarding the proposed methods.
+%This research has not fully gone according to plan. A large portion of work went into obtaining the 6L5K Music Corpus, and determining a representation of this data that can be used as input to various neural networks. Still, we argue that the quality of the dataset and the representation of the data are the main areas for improvement. Furthermore, we only tested two types of neural networks and added a third combination of the two. There are a number of improvements that can be attempted, unfortunately outside the scope of this research.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Future Work}
+\section{Answer to Research Questions}\label{section:answer_question}
+
+Based on the results that we obtained by fine-tuning NMT systems on phrases with tagging in various target domains, we can answer the research questions we addressed in Section~\ref{section:research_questions}. We will answer the sub-questions and then the main research question.
+
+\subsection{Answer to sub-research questions}
+
+\noindent \textbf{1. How much does the translation quality of out-of-domain models improve over the baseline models when fine-tuning on in-domain phrase pairs?}
+
+\bigskip
+
+We evaluated the translation quality of the NMT systems by BLEU. For an accurate assessment of the performance of our approach, we established the lower and upper bounds of BLEU gain using the baseline and sentence adapted models, respectively. The baseline's BLEU scores are reached 29 (on JRC) $\sim$ 35.5 (on EMEA) in target domain test sets and fine-tuning on in-domain sentences improved them +9.1 BLEU (on GNOME) $\sim$ +25.7 BLEU (on JRC). By the results of fine-tuning on in-domain phrases, we ascertained that the phrase-adapted models boosted their translation quality over the baseline in all domains. The BLEU gains over the non-adapted baseline vary between +7.0 on EMEA and +1.4 on JRC.
+
+\bigskip
+
+\noindent \textbf{2. Does the use of shorter phrases (i.e. more fragmented data) lower translation quality?}
+
+\bigskip
+
+We hypothesised that shorter phrases would be significantly less useful for fine-tuning, but would better preserve confidentiality.
+Therefore, we expected that fine-tuning on longer phrases would result in a higher BLEU score. However, by experimenting with different maximum phrase lengths (1, 4 and 7), we observed that longer phrase datasets do not consistently guarantee a better BLEU score. Increasing the maximum length of phrases from 1 to 4 improved the performance of NMT systems in all domains, however from 4 to 7 worsens it in the GNOME and JRC domains.
+
+%We wanted to understand why maximum length 7 datasets actually drop the BLEU scores. 
+We suspected that as one of the reasons for this result, the number of overlapping phrases increases as the maximum length increases when extracting phrases. To investigate the effect of reducing overlapping phrases in maximum length 7 datasets, we experimented with a minimum phrase length (5 words). The experimental results showed various aspects depending on the domain. Fine-tuning on the length 5 $\sim$ 7 phrases in the EMEA domain still results in a higher BLEU than a maximum length 4, but in a trivial decrease of the BLEU than a maximum length 7. In the GNOME domain, setting a minimum length of phrases did not have a positive effect on BLEU. However, in the JRC domain, our approach improved BLEU and eventually had a higher BLEU score than fine-tuning on maximum length 4. To sum up, using shorter phrases does not always reduce translation quality, and the effect is domain dependent.
+
+\bigskip
+
+\noindent \textbf{3. Can the phrase adapted NMT model's translation quality be improved by applying tagging techniques to present phrase pairs to the NMT model?}
+
+\bigskip
+
+When fine-tuning NMT systems on phrases, we concerned with a bias: the model generates shorter translations compared to fine-tuning on original sentences. To alleviate this bias, we used the tagging technique on phrases. In general, adding tags on phrases lifted the BLEU scores. Especially, the positive effect of tagging was notable when fine-tuning on dictionary, +1.6 BLEU on JRC and EMEA $\sim$ +3.8 BLEU on GNOME. Only in the EMEA domain with the maximum length of 7, the BLEU score dropped with tagging technique. 
+
+As an additional experiment, we reduced the total number of phrases in the maximum length 7 datasets by removing phrases shorter than 5 words. Here, on EMEA benefit the model's performance by tagging but interestingly, on other domains deteriorated or stayed. 
+%Adding tags on phrases in most cases achieved BLEU gains in fine-tuning NMT models. In particular, short phrases (1 $\sim$ 4 words) benefit more from the addition tags than long ones (longer than 4 words). 
+
+\bigskip
+
+\noindent \textbf{4. When fine-tuning the NMT model on phrase pairs, are there any significant differences between different test domains?}
+
+\bigskip
+
+The experimental results showed that the benefits of domain adaptation on phrases depended on domains. We obtained the biggest improvement on the EMEA domain, but still almost 4 BLEU away from the upper bound. On the GNOME domain, we improved the model performance close to the ceiling. However, the results of the JRC domain presented a significant deviation from our expectations. Despite the biggest benefit from domain adaptation, fine-tuning on phrases in the JRC domain achieved diminutive improvements. We conducted analyses to attain a sufficient explanation for this and discovered that some of target language sentences that consist of copies of the corresponding source and its translation. 
+According to \cite{pmlr-v80-ott18a}, the ''copies'' of source sentences can cause a significant effect on the translation quality. To investigate whether this noise affects the model's output, we cleaned the copies from the JRC datasets and fine-tuned again on them. This led to completely different results from the previous JRC data set. The maximum gain of the domain adaptation shrank significantly and fine-tuning on phrases nearly reached the ceiling. 
+
+In addition, we observed that the results of the experiments showed all domains have different patterns. Every domain scored the highest BLEU in a different combination of maximum length and tagging technique. On EMEA increase of the maximum length of the phrase was beneficial but on GNOME and JRC this was not the case. The effect of tagging technique differed across domains, especially in maximum length 7. Applying tagging on maximum length 7 phrases benefits on the GNOME and JRC domains but deteriorates on EMEA. 
+%: the effect of phrase length and the tagging technique in BLEU differed across domains.
+%On the one hand, we also found that the effect of phrase length and the tagging technique in BLEU differed across domains. Every domain scored the highest BLEU in a different combination of maximum length and tagging technique. The trend of 
+%Why are they what they are? What meaning can you wrest from them? Are they in accord with accepted theory? What do they mean with respect to your hypothesis? Do your results uphold your assumptions? How do you treat unexpected or inconsistent results? Can you account for them? Do your results suggest that you need to revise your experiments or repeat them? Do they indicate a revised hypothesis? What are the limitations in your methodology? How do your results fit in with the work of others in the field? What additional work can you suggest?
+\bigskip
+\subsection{Answer to main research question}
+
+\noindent \textbf{In the scenario where the original data is not shareable due to confidentiality issues and \textit{only shuffled phrase pairs} can be released as a compromise, can this benefit downstream NMT quality in any way?}
+
+\bigskip
+
+In this thesis, we considered the scenario where the translation company \textit{\textbf{A}} wants to improve its NMT system by using the fragmented confidential data of the clients. We proposed phrase pairs as a fragmented format of the parallel corpus. After extracting phrases from the original data, we shuffled and randomly sampled them for preserving confidentiality. Then, we fine-tuned an NMT system on them to assess whether the model can take any advantage of it. Our experimental results support that NMT can benefit from fine-tuning on shuffled phrases instead of full sentences. Still, the improvements by fine-tuning on phrases are lower compared to on full sentences, it is a promising finding in practice because our approach does not need any change in architecture or other fine-tuning algorithms.
+\bigskip
+
+% \begin{itemize}
+    % \item \parencite[]{gilbertcan} also reported that such a small data( similar amount of sentences) can benefit downstream NMT. For this, they used a commercial NMT system such as Google Translate.
+    % Therefore, the highly domain specific data can improve NMT quality, despite of the small amount dataset. 
+    % \item Different lengths of phrases : duplicates issues Or it can be noisy anyways. 
+    % \item (translate one word segments Transformer) If the model only learns to translate long sentences, it might struggle to translate short ones.: repetition problems (probably n-gram issue?) -> look at the output of traning dictionary : Read \cite{park2020decoding} and think!! 
+    % % \item WHY JRC always works strangely? : cite -  Analyzing Uncertainty in Neural Machine Translation \\
+    % % "A lesser-known example are target sentences which are entirely in the source language, or which are primarily copies of the corresponding source." : This is exactly the case of JRC that has lots of copies. 
+    % \item for the better extraction of phrases, train the alignment model with bigger training set : like adding other in-domain publicly available dataset.\\
+    % \item Recent techniques to prevent overfitting during fine-tuning \parencite{kirkpatrick2017overcoming,thompson-etal-2019-overcoming} may overcome this problem in future work.
+% \end{itemize}
+
+\section{Limitations and Future Work}\label{section:future_work}
+%\textcolor{blue}{ We leave improving and evaluating the preservation of confidentiality by releasing partial sequences for future work.}
+% quantify confidentiality : how much we can reconstruct original dataset from the phrases ?
+%This work poses numerous insights for a very narrow field: Automatic Language Identification (LID) of vocals in music. The results are limited by relatively low accuracies on unseen data, as well as time constraints. As such, there is a lot of potential for future work in this narrow field of LID to improve over the current findings. 
+
+Based on our findings and limitations of this thesis work, we can contemplate several further research. 
+
+\subsection{Quantifying the preservation of confidentiality}
+We proposed an initial solution using confidential data for domain adaptation of NMT models by fragmented parallel corpus, phrase pairs. For using such sensitive data in a fragmented format, two aspects should be satisfied: confidentiality and usefulness. In this thesis work, we mainly focused on the latter to examine whether there can be any benefit to using this type of data. On the other hand, we proposed relatively simple methods for preserving confidentiality but have not measured it. In particular, our threat model is that an adversary may reconstruct the original documents, and this can eventually leak the core information. Therefore, the next step would be to quantify the extent of reconstruction of the original document from the phrases, which so far has only been done in the context of (monolingual) N-grams.\parencite{galle2015reconstructing}.
+%If it is possible to adjust the idea of this paper to create Bruijn-graph from the phrase pairs in any way, our method can be evaluated in the confidentiality aspect.
+
+% much more realistic circumstances 
+\subsection{Experiments in more realistic circumstances }
+In this work, we simulated confidential data by using publicly available datasets. Therefore, future work can assess our approach by experimenting with actual confidential data in a more realistic manner. In addition, even if our work concerned more with the reconstruction of the original text, the actual sensitive data may contain sensitive partial information as well. The de-identification techniques are often applied to protect partial information like in clinical documents~\parencite{meystre2010automatic}. It may combine with our approach to have more reliable protection of confidentiality. It would be intriguing to examine how our method can still exploit fine-tuning on phrases from the de-identified dataset, such as certain key segments are deleted or substituted. 
+%Note that we have to choose de-identifying methods to maintain the alignments between source and target sentences. 
+Note that de-identification methods have to be applied while maintaining the alignments between source and target sentences.
+
+\subsection{Experiments in different setups}
+%different setups : model / different languages
+Our approach was only tested with a Transformer based model, which has a state-of-art performance in NMT and in German-English, which is known as a high-resource and close language pair. To investigate our method in different setups, we would like to assess the same experiments with different NMT models, such as CNN or LSTM based models, and with other language pairs including low-resource and difficult ones. We also found that the improvements of translation quality of phrase-adapted models are varied across different domains. To explore the difference in more domains, we can experiment with other domains that we did not choose in this paper. 
+
+% New idea - using N-grams 
+\subsection{Monolingual fragmented data: N-grams}
+Our results show that a fragmented dataset still contains valuable information for fine-tuning an NMT system. We used phrase pairs as fragmented text because they can maintain the alignments of the parallel corpus. However, for some language pairs, the available parallel datasets are limited. As a solution for this, many studies utilising monolingual data for NMT systems have been conducted, and they have shown good results. Therefore, extending our approach, we may consider N-grams as a monolingual dataset. For instance, with 'Back-Translation'\parencite{sennrich-etal-2016-improving} we generate a new pseudo parallel dataset and conduct fine-tuning on them. With this, we may easily apply the methods from ~\cite{galle2015reconstructing}. 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion}
+%\cite{galle2015reconstructing} proposed an approach of generating the noised N-grams for preventing reconstruction of the whole original documents. This technique is inspired by de Bruijn graph commonly used in DNA sequence mapping, and noise is added to N-grams. Based on this, future work can adjust the noising technique system and add noise to given phrases. %The noised N-grams will lose utility compared with N-grams thus the proper amount of noise should be investigated.
+%conduct a comprehensive study of the privacy implications of our technique similar to \cite{galle2015reconstructing}. 
+
+
+\section{Conclusion}\label{section:conclusion}
+% We believe that our findings have several implications for machine translation research. Most importantly, if we accept our interpretation
+
+% Our in-depth analysis on our method of transferring pretrained models, showed that: 1)
+
+We have studied the problem of domain adaptation of NMT models when domain-specific data cannot be shared due to confidentiality or copyright concerns. Inspired by a common NLP practice of sharing confidential data in the form of N-grams \parencite[]{michel2011quantitative}, we propose to use phrase extraction \parencite{koehn2003statistical}, shuffling and sub-sampling as a data fragmentation technique for translation data.
+
+Our experiments on three different domains show that this type of data can be used to fine-tune NMT models leading to considerable improvements on top of a strong baseline and further gains when using a simple phrase tagging technique. We also find that the magnitude of these gains varies largely across domains. Our analysis and additional experiments show that: 1) fine-tuning on short segments can improve translation of short sentences as well as long sentences 2) it still needs more explanation of what causes the profits difference across domains.
+
+%and offer an initial explanation based on the average length of sentence.
+%Reconstructing the full documents from the N-grams is quite challenging\cite{galle2015reconstructing}, therefore fragmented data can be an option for keeping the confidentiality of original documents.

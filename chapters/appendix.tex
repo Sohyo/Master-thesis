@@ -1,37 +1,71 @@
-% \section{Useful literature}
-% This is a place to keep all useful papers and references.
-% 
-% \begin{itemize}
-%     \item General RL
-%     \begin{itemize}
-%         \item Hindsight Experience Replay \parencite{andrychowicz2017hindsight}
-%         \item Prioritized experience replay \parencite{schaul2015prioritized}
-%         \item Curiosity-driven exploration \parencite{schmidhuber2010formal}
-%     \end{itemize}
-%     \item Curriculum learning
-%     \begin{itemize}
-%         \item Automatic Curriculum Learning For Deep RL: A Short Survey \parencite{portelas2020automatic}
-%     \end{itemize}
-%     \item HRL
-%     \begin{itemize}
-%         \item Article that reviews different HRL (\href{https://thegradient.pub/the-promise-of-hierarchical-reinforcement-learning/}{link})
-%         \item Overview of HRL \parencite{HRL2011Overview}
-%         \item Overview of HRL \parencite{Barto2003}
-%         \item HRL Lifelong Learning Minecraft \parencite{tessler2016deep}
-%         \item Options framework \parencite{sutton1999options}
-%         \item MAXQ \parencite{dietterich2000hierarchical}
-%         \item DHRL marco student \parencite{niel2018hierarchical}
-%         \item HEXQ automatic hierarchichal strtucture \parencite{hengst2002discovering}
-%         \item HABS (Hierarchical Assignment of Behaviours to Subpolicies) \parencite{moermanhierarchical}
-%         \item FeUdal Networks (FUN) \parencite{Vezhnevets:2017:FNH:3305890.3306047}
-%         \item HIRO Google \parencite{nachum2018HIRO}
-%         \item HAC \parencite{levy2018hierarchical}
-%         \item MLSH openAI \parencite{frans2017MLSH}
-%         \item COBRA: Curiosity \parencite{watters2019cobra}
-%         \item Deepmind Object-oriented state editing for HRL \parencite{bapst2019objectoriented}
-%     \end{itemize}
-%     \item Lifelong Learning
-%     \begin{itemize}
-%         \item Lifelong Machine Learning \parencite{silver2013lifelong}
-%     \end{itemize}
-% \end{itemize}
+% \chapter{Translation Sample}\label{section:translation_sample}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{P{0.17\linewidth}  p{0.75\linewidth}}
+% \Xhline{3\arrayrulewidth}
+%                       & \multicolumn{1}{c}{\textbf{Output}} \\ \hline
+% \textbf{Source}        &  Dieses Programm wurde mit dem Ziel veröffentlicht, dass Sie es nützlich finden, jedoch OHNE JEGLICHE GARANTIE, sogar ohne eine implizite Garantie der VERKAUFBARKEIT oder der VERWENDBARKEIT FÜR EINEN SPEZIELLEN ZWECK. Schauen Sie für weitere Informationen bitte in der <unk> GNU General Public License <unk> (GNU GPL) nach.
+% \\ \hline
+% \textbf{Reference}     & This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+%  \\
+% \textbf{Baseline}      &  This program has been published with the intent that you will find it useful, but WITHOUT ANY WARRANTY, even without implied warranty of merchantability or USability FOR A SPECIAL PURPOSE. For more information, please refer to <unk> 's GNU General Public License (GPL).
+% \\
+% \textbf{No tag, max 4} &  This program was created to be useful but WITHOUT ANY WARRANTY, even without any implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <unk> GNU General Public License <unk> (GNU GPL) for more information.
+% \\
+% \textbf{Tagged max 4}  & This program was released with the intention that you will find it useful but WITHOUT ANY WARRANTY, even without implied warranty of MERCHANTABILITY or MERCHANTABILITY FOR A PARTICULAR PURPOSE. For more information, please see the <unk> GNU General Public License <unk> (GNU GPL). \\
+% \textbf{No tag, max 7} & This program has been published with the intent that you find it useful, but WITHOUT WARRANTY, even without implied warranty of MERCHANTABILITY or MERCHANTABILITY FOR A PARTICULAR PURPOSE. For more information, please see the <unk> GNU General Public License <unk> (GNU GPL). \\
+% \textbf{Tagged max 7}  & This program was published with the intent that you find it useful, but WITHOUT ANY WARRANTY, even without implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For more information, please see the <unk> GNU General Public License <unk> (GNU GPL). \\
+% \textbf{Original data} &  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+% \\ \Xhline{3\arrayrulewidth}
+% \end{tabular}
+% \caption{Translation sample of GNOME}
+% \label{tab:sample}
+% \end{table}
+
+\chapter{Extracted Phrase Pairs Example}\label{section:phrase_sample}
+% \begin{table}[h!]
+% \centering
+% \begin{tabular}{p{0.5\linewidth}  p{0.5\linewidth}}
+% \Xhline{3\arrayrulewidth}
+% \multicolumn{1}{c}{\textbf{German}}                 & \multicolumn{1}{c}{\textbf{English}}\\ \hline
+% Bearbeiten der Spalten in der Nachrichtenliste
+%  &  Editing the columns displayed in the list of messages \\\\
+% Bearbeiten der Spalten & Editing the columns displayed \\\\
+% Bearbeiten & Editing \\\\
+% der Spalten in der Nachrichtenliste & the columns displayed in the list of messages \\\\
+% der Spalten & the columns displayed \\\\
+% in der Nachrichtenliste & in the list of messages \\
+% \Xhline{3\arrayrulewidth}
+% \end{tabular}
+% \caption{Extracted phrase pairs example from GNOME}
+% \label{tab:sample}
+% \end{table}
+
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{P{0.1\linewidth}| p{0.4\linewidth} p{0.4\linewidth}}
+\Xhline{3\arrayrulewidth}
+                        & \multicolumn{1}{c}{\textbf{German}} & \multicolumn{1}{c}{\textbf{English}}  \\ \hline\hline
+\textbf{Original sentence}       & Bearbeiten der Spalten in der Nachrichtenliste 
+                                 &  Editing the columns displayed in the list of messages \\ \hline
+
+\multirow{2}{*}{\textbf{Phrase}} & Bearbeiten der Spalten & \multicolumn{1}{l}{Editing the columns displayed} \\ 
+                        & \multicolumn{1}{l}{Bearbeiten} & \multicolumn{1}{l}{Editing} \\
+                        & \multicolumn{1}{l}{der Spalten in der Nachrichtenliste} & \multicolumn{1}{l}{the columns displayed in the list of messages} \\
+                        & \multicolumn{1}{l}{der Spalten} & \multicolumn{1}{l}{the columns displayed} \\
+                        & \multicolumn{1}{l}{in der Nachrichtenliste} & \multicolumn{1}{l}{in the list of messages} \\
+\Xhline{3\arrayrulewidth}
+\end{tabular}
+\caption{Extracted phrase pairs example from GNOME. The phrases are extracted from the given original German-English sentences with maximum length 8. }
+\label{tab:my-table}
+\end{table}
+
+
+%  |||  ||| 0-0 1-1 1-2 2-2 2-3 3-4 3-5 4-5 4-6 5-6 4-7 5-8
+% Bearbeiten der Spalten ||| Editing the columns displayed ||| 0-0 1-1 1-2 2-2 2-3
+% Bearbeiten ||| Editing ||| 0-0
+% der Spalten in der Nachrichtenliste ||| the columns displayed in the list of messages ||| 0-0 0-1 1-1 1-2 2-3 2-4 3-4 3-5 4-5 3-6 4-7
+% der Spalten ||| the columns displayed ||| 0-0 0-1 1-1 1-2
+% in der Nachrichtenliste ||| in the list of messages ||| 0-0 0-1 1-1 1-2 2-2 1-3 2-4
